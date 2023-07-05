@@ -1,0 +1,129 @@
+{
+  "active": true,
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "createdAt": "2023-06-15T23:19:36.892Z",
+  "id": "5",
+  "name": "Send to Lendingpad",
+  "nodes": [
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.lendingpad.com/integrations/import/loan",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\"contact\": \"f10706b0-aab3-4f9a-ae01-ab525720352c\",\"company\": \"0264364a-9ad0-482a-bd94-a1ff8236c494\",\"campaign\": \"9082715b-6253-4a4a-aee9-32ec27b1de94\",\"occupancy\": 2,\"purpose\": 1,\"loanType\": 1,\"appraisalValue\": 500000,\"loanAmount\": 400000,\"propertyType\": 1,\"units\": 1,\"borrower\": {\"firstName\": \"{{ $json.query.first_name }}\",\"lastName\": \"{{ $json.query.last_name }}\",\"contacts\": {\"email\": \"{{ $json.query.email }}\"}}}   ",
+        "options": {}
+      },
+      "id": "f574b036-ab65-4cba-9e2d-224113a982b7",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1220,
+        720
+      ],
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "1",
+          "name": "Lendingpad Prod"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "path": "sendtolp",
+        "options": {}
+      },
+      "id": "4b382f40-0fc8-4901-ae85-796b2fed1c32",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        1020,
+        720
+      ],
+      "webhookId": "7f1828da-5c3e-4355-a52c-3c737b524a61"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "locationinfo",
+        "options": {}
+      },
+      "id": "dbef4522-e305-4b2f-89ee-82b7533caec9",
+      "name": "Webhook1",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        1920,
+        720
+      ],
+      "webhookId": "c0f9ee9b-50c1-43d8-97cf-ead794882293"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://services.leadconnectorhq.com/hooks/KjwZ97eYQcPryfVQvo6k/webhook-trigger/7aaa8f8f-0322-4e9a-afd6-9ad1b7b8e790",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "email",
+              "value": "={{ $('Webhook').item.json.query.email }}"
+            },
+            {
+              "name": "loanid",
+              "value": "={{ $json.id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "f7935b73-472b-4d1b-9936-3c8e80321c01",
+      "name": "HTTP Request1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1440,
+        720
+      ]
+    }
+  ],
+  "pinData": {},
+  "settings": {},
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 2,
+  "updatedAt": "2023-06-20T14:53:12.000Z",
+  "versionId": "020dfcaa-4ac3-46bd-be2e-de074dfe2c52"
+}
