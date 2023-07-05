@@ -1,0 +1,243 @@
+{
+  "active": true,
+  "connections": {
+    "MySQL": {
+      "main": [
+        [
+          {
+            "node": "Set",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "MySQL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Item Lists": {
+      "main": [
+        [
+          {
+            "node": "MySQL1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set": {
+      "main": [
+        [
+          {
+            "node": "Set1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set1": {
+      "main": [
+        [
+          {
+            "node": "Item Lists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2023-06-21T15:35:17.423Z",
+  "id": "8",
+  "name": "CPL Wordpress - Update User List Dropdown",
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "command_center_users",
+          "mode": "list",
+          "cachedResultName": "command_center_users"
+        },
+        "options": {}
+      },
+      "id": "57b8e2c8-d3e1-47f2-a717-2ccb9c9129ad",
+      "name": "MySQL",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.1,
+      "position": [
+        1900,
+        840
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "10",
+          "name": "Planet Scale"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 3
+            }
+          ]
+        }
+      },
+      "id": "a1440bd5-51f2-400b-a5b9-c85cd0d6da86",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        1660,
+        840
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "summarize",
+        "fieldsToSummarize": {
+          "values": [
+            {
+              "aggregation": "concatenate",
+              "field": "choice"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "47a96883-22ca-4140-8e65-c7fa3a8fe670",
+      "name": "Item Lists",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 2.1,
+      "position": [
+        2640,
+        840
+      ]
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "label",
+              "value": "={{ $json.first_name }} {{ $json.last_name }} - {{ $json.company_name }}"
+            },
+            {
+              "name": "value",
+              "value": "={{ $json.user_id }}"
+            },
+            {
+              "name": "image"
+            },
+            {
+              "name": "icon",
+              "value": "face-smile"
+            },
+            {
+              "name": "icon_style"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e0d62e06-4ba6-435d-86ee-d22c0231854a",
+      "name": "Set",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        2120,
+        840
+      ]
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "=choice",
+              "value": "=           \"{{ $('MySQL').item.json[\"id\"] }}\":{\"label\": \"{{ $json[\"label\"] }}\",\n            \"value\": \"{{ $json[\"value\"] }}\",\n            \"image\": \"{{ $json[\"image\"] }}\",\n            \"icon\": \"{{ $json[\"icon\"] }}\",\n            \"icon_style\": \"{{ $json[\"icon_style\"] }}\"}"
+            }
+          ]
+        },
+        "options": {
+          "dotNotation": false
+        }
+      },
+      "id": "45b7b2f0-b431-40c0-a923-4d436f9d8735",
+      "name": "Set1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        2340,
+        840
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "wp_posts",
+          "mode": "list",
+          "cachedResultName": "wp_posts"
+        },
+        "dataMode": "defineBelow",
+        "columnToMatchOn": "guid",
+        "valueToMatchOn": "https://coastalpacificlending.com/?post_type=wpforms&#038;p=11427",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "post_content",
+              "value": "={\n    \"fields\": {\n      \"3\": {\n        \"id\": \"3\",\n        \"type\": \"hidden\",\n        \"label\": \"contact_id\",\n        \"label_disable\": \"1\",\n        \"default_value\": \"\",\n        \"css\": \"\"\n      },\n      \"5\": {\n        \"id\": \"5\",\n        \"type\": \"select\",\n        \"label\": \"Dropdown\",\n        \"choices\": {\n\n{{ $json[\"concatenated_choice\"] }}\n\n            \n        },\n        \"description\": \"\",\n        \"show_values\": \"1\",\n        \"style\": \"classic\",\n        \"size\": \"medium\",\n        \"placeholder\": \"\",\n        \"dynamic_choices\": \"\",\n        \"css\": \"\",\n        \"label_hide\": \"1\"\n      }\n    },\n    \"id\": \"11427\",\n    \"field_id\": 6,\n    \"settings\": {\n      \"form_title\": \"Who answered the phone?\",\n      \"form_desc\": \"\",\n      \"submit_text\": \"Send It!\",\n      \"submit_text_processing\": \"Sending...\",\n      \"form_class\": \"\",\n      \"submit_class\": \"\",\n      \"dynamic_population\": \"1\",\n      \"ajax_submit\": \"1\",\n      \"notifications\": {\n        \"1\": {\n          \"notification_name\": \"Default Notification\",\n          \"email\": \"{admin_email}\",\n          \"subject\": \"New Entry: Blank Form\",\n          \"sender_name\": \"Coastal Pacific Lending Inc.\",\n          \"sender_address\": \"{admin_email}\",\n          \"replyto\": \"\",\n          \"message\": \"{all_fields}\",\n          \"file_upload_attachment_fields\": [],\n          \"entry_csv_attachment_entry_information\": [],\n          \"entry_csv_attachment_file_name\": \"entry-details\"\n        }\n      },\n      \"confirmations\": {\n        \"1\": {\n          \"name\": \"Default Confirmation\",\n          \"type\": \"message\",\n          \"message\": \"<p>The Lead Info has been sent!We're putting the pieces together and sending the lead to the user in their system. This process generally takes about 30 seconds to complete. </p>\",\n          \"message_scroll\": \"1\",\n          \"page\": \"5757\",\n          \"redirect\": \"\",\n          \"message_entry_preview_style\": \"basic\"\n        }\n      },\n      \"lead_forms\": {\n        \"title\": \"\",\n        \"accent_color\": \"#0299ed\",\n        \"field_borders\": \"#cccccc\",\n        \"primary_text\": \"#444444\",\n        \"secondary_text\": \"#777777\",\n        \"import\": \"\"\n      },\n      \"antispam\": \"1\",\n      \"anti_spam\": {\n        \"country_filter\": {\n          \"action\": \"allow\",\n          \"country_codes\": [],\n          \"message\": \"Sorry, this form does not accept submissions from your country.\"\n        },\n        \"keyword_filter\": {\n          \"message\": \"Sorry, your message can't be submitted because it contains prohibited words.\"\n        }\n      },\n      \"form_abandonment_fields\": \"\",\n      \"post_submissions_title\": \"\",\n      \"post_submissions_content\": \"\",\n      \"post_submissions_excerpt\": \"\",\n      \"post_submissions_featured\": \"\",\n      \"post_submissions_type\": \"post\",\n      \"post_submissions_status\": \"pending\",\n      \"post_submissions_author\": \"\",\n      \"registration_username\": \"\",\n      \"registration_email\": \"\",\n      \"registration_name\": \"\",\n      \"registration_password\": \"\",\n      \"registration_website\": \"\",\n      \"registration_bio\": \"\",\n      \"registration_role\": \"subscriber\",\n      \"registration_activation_method\": \"user\",\n      \"registration_email_user_activation_subject\": \"{site_name} Activation Required\",\n      \"registration_email_user_activation_message\": \"IMPORTANT: You must activate your account before you can log in.\\r\\nPlease visit the link below.\\r\\n\\r\\n{url_user_activation}\",\n      \"registration_activation_confirmation\": \"\",\n      \"registration_hide_message\": \"Hi {user_first_name}, you’re already logged in. <a href=\\\"{url_logout}\\\">Log out</a>.\",\n      \"registration_email_admin_subject\": \"{site_name} New User Registration\",\n      \"registration_email_admin_message\": \"New user registration on your site {site_name}:\\r\\n\\r\\nUsername: {user_registration_login}\\r\\nEmail: {user_registration_email}\",\n      \"registration_email_user_subject\": \"{site_name} Your username and password info\",\n      \"registration_email_user_message\": \"Username: {user_registration_login}\\r\\nPassword: {user_registration_password}\\r\\n{url_login}\\r\\n\\r\\n\",\n      \"registration_email_user_after_activation_subject\": \"{site_name} Your account was successfully activated\",\n      \"registration_email_user_after_activation_message\": \"You can log in with your credentials now.\\r\\n\\r\\n{url_login}\",\n      \"form_pages_title\": \"Blank Form\",\n      \"form_pages_description\": \"\",\n      \"form_pages_page_slug\": \"blank-form\",\n      \"form_pages_custom_logo\": \"\",\n      \"form_pages_footer\": \"This content is neither created nor endorsed by WPForms.\",\n      \"form_pages_color_scheme\": \"#448ccb\",\n      \"form_pages_style\": \"modern\",\n      \"conversational_forms_title\": \"Blank Form\",\n      \"conversational_forms_description\": \"\",\n      \"conversational_forms_page_slug\": \"blank-form\",\n      \"conversational_forms_custom_logo\": \"\",\n      \"conversational_forms_color_scheme\": \"#448ccb\",\n      \"conversational_forms_progress_bar\": \"percentage\",\n      \"save_resume_link_text\": \"Save and Resume Later\",\n      \"save_resume_disclaimer_message\": \"Heads up! Saving your progress now will store a copy of your entry on this server and the site owner may have access to it. For security reasons, sensitive information such as credit cards and mailing addresses, along with file uploads will have to be re-entered when you resume.\",\n      \"save_resume_confirmation_message\": \"Your form entry has been saved and a unique link has been created which you can access to resume this form.\\r\\n\\r\\nEnter your email address to receive the link via email. Alternatively, you can copy and save the link below.\\r\\n\\r\\nPlease note, this link should not be shared and will expire in 30 days, afterwards your form entry will be deleted.\",\n      \"save_resume_enable_resume_link\": \"1\",\n      \"save_resume_enable_email_notification\": \"1\",\n      \"save_resume_email_notification_message\": \"Thank you for saving {form_name}. Click the link below to resume the form from any device.\\r\\n\\r\\n{resume_link}\\r\\n\\r\\nRemember, the link should not be shared and will expire in 30 days.\",\n      \"save_resume_email_settings_message\": \"A link to resume this form has been sent to the email address provided.\\r\\n\\r\\nPlease remember, the link should not be shared and will expire in 30 days.\",\n      \"webhooks_enable\": \"1\",\n      \"webhooks\": {\n        \"1\": {\n          \"name\": \"Transfer to n8n\",\n          \"method\": \"post\",\n          \"format\": \"json\",\n          \"url\": \"https://taskautomation.coastalpacificlending.com/webhook-test/FromWPforms\",\n          \"secret\": \"\",\n          \"headers\": [],\n          \"body\": {\"contact_id\":3,\"custom_receiving_user_id\":{\"value\":\"{field_value_id=\\\"5\\\"}\"}},\n          \"id\": 1\n        }\n      },\n      \"form_tags\": []\n    },\n    \"lead_forms\": {\n      \"iif_id_ref\": \"\"\n    }\n  }"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "4cb9e0cc-d04b-4b52-b2c7-b269674825a9",
+      "name": "MySQL1",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.1,
+      "position": [
+        3000,
+        840
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "11",
+          "name": "CPL Website"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {},
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrencyRules": [
+        6
+      ]
+    }
+  },
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2023-07-05T13:00:00.000Z",
+  "versionId": "705f74b4-fb7d-4626-ab73-0b5dfbb0d534"
+}
