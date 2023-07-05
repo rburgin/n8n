@@ -1,0 +1,659 @@
+{
+  "active": true,
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Get All Locations",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Location Info": {
+      "main": [
+        [
+          {
+            "node": "Get From User Info",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Custom Fields From Sending Location",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get From User Info": {
+      "main": [
+        [
+          {
+            "node": "Get Receiving User Information",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Receiving User Information": {
+      "main": [
+        [
+          {
+            "node": "Get Receiving Location Information",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Contact Info": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out Locations": {
+      "main": [
+        [
+          {
+            "node": "Check All Locations for Contact",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check All Locations for Contact": {
+      "main": [
+        [
+          {
+            "node": "Keep Single non-error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Keep Single non-error": {
+      "main": [
+        [
+          {
+            "node": "Get Location Info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Receiving Location Information": {
+      "main": [
+        [
+          {
+            "node": "Get Contact Info",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Custom Fields From Sending Location1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Custom Fields From Sending Location": {
+      "main": [
+        [
+          {
+            "node": "Split Out Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out Fields": {
+      "main": [
+        [
+          {
+            "node": "Compare Fields",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Get Custom Fields From Sending Location1": {
+      "main": [
+        [
+          {
+            "node": "Split Out Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out Fields1": {
+      "main": [
+        [
+          {
+            "node": "Set",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Compare Fields": {
+      "main": [
+        [
+          {
+            "node": "Create Fields That Don't Exist",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [],
+        [],
+        [
+          {
+            "node": "Create Fields That Don't Exist",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set": {
+      "main": [
+        [
+          {
+            "node": "Compare Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Fields That Don't Exist": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Update Contact With Receiving Information",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get All Locations": {
+      "main": [
+        [
+          {
+            "node": "Split Out Locations",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2023-06-22T23:15:28.362Z",
+  "id": "11",
+  "name": "Find Contact in CC and Update to Transferred",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "FromWPforms",
+        "options": {}
+      },
+      "id": "f4a14455-d5fc-46aa-8e00-e3a31a6a13c8",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        740,
+        460
+      ],
+      "webhookId": "ef99250a-a2b9-4faa-b6ea-7e4904855af4"
+    },
+    {
+      "parameters": {
+        "url": "=https://rest.gohighlevel.com/v1/locations/{{ $json.contact.locationId }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb21wYW55X2lkIjoiVHhCeG9ZVVVHc1N1a2lUYXZkQm0iLCJ2ZXJzaW9uIjoxLCJpYXQiOjE2ODY4NjMxMzk1MTgsInN1YiI6IkJHT2JNMnBmd1RPa21kRTJBcjAzIn0.rtrFC2ctNOjLTYqGvWSantAkj_t95OReshROF-p5H0o"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b94e01b8-1d95-4a89-ba53-141aa25b32a1",
+      "name": "Get Location Info",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1760,
+        340
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://rest.gohighlevel.com/v1/users/{{ $('Keep Single non-error').item.json.body.contact.assignedTo }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb21wYW55X2lkIjoiVHhCeG9ZVVVHc1N1a2lUYXZkQm0iLCJ2ZXJzaW9uIjoxLCJpYXQiOjE2ODY4NjMxMzk1MTgsInN1YiI6IkJHT2JNMnBmd1RPa21kRTJBcjAzIn0.rtrFC2ctNOjLTYqGvWSantAkj_t95OReshROF-p5H0o"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "7a9b41d9-d69e-4290-bd94-7938f2c328fc",
+      "name": "Get From User Info",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1960,
+        340
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://rest.gohighlevel.com/v1/contacts/{{ $('Keep Single non-error').item.json.contact.id }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $('Get Location Info').item.json.apiKey }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "fe5dd223-c03b-4464-bdd4-d490ede2caf3",
+      "name": "Get Contact Info",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        2560,
+        340
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://rest.gohighlevel.com/v1/users/{{ $('Webhook').item.json.body.receiving_user_id }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb21wYW55X2lkIjoiVHhCeG9ZVVVHc1N1a2lUYXZkQm0iLCJ2ZXJzaW9uIjoxLCJpYXQiOjE2ODY4NjMxMzk1MTgsInN1YiI6IkJHT2JNMnBmd1RPa21kRTJBcjAzIn0.rtrFC2ctNOjLTYqGvWSantAkj_t95OReshROF-p5H0o"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "234c27d8-6839-4f45-8608-3b7655a80128",
+      "name": "Get Receiving User Information",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        2160,
+        340
+      ]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "locations",
+        "options": {}
+      },
+      "id": "901bbf5f-fd6c-4237-b92b-60d0d9703a88",
+      "name": "Split Out Locations",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 2.1,
+      "position": [
+        1140,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://rest.gohighlevel.com/v1/contacts/{{ $('Webhook').item.json.body.contact_id }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $json.apiKey }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "f46e92ad-8adb-41a3-b216-b7d741961d9f",
+      "name": "Check All Locations for Contact",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1340,
+        460
+      ],
+      "retryOnFail": false,
+      "maxTries": 5,
+      "alwaysOutputData": true,
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.error }}",
+              "operation": "isEmpty"
+            }
+          ]
+        },
+        "combineOperation": "any"
+      },
+      "id": "f6ecca07-bca1-4910-b297-92fe56fde768",
+      "name": "Keep Single non-error",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1540,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://rest.gohighlevel.com/v1/locations/{{ $json.roles.locationIds[0] }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb21wYW55X2lkIjoiVHhCeG9ZVVVHc1N1a2lUYXZkQm0iLCJ2ZXJzaW9uIjoxLCJpYXQiOjE2ODY4NjMxMzk1MTgsInN1YiI6IkJHT2JNMnBmd1RPa21kRTJBcjAzIn0.rtrFC2ctNOjLTYqGvWSantAkj_t95OReshROF-p5H0o"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "f3842224-b356-4c47-b4ec-3467abca0ede",
+      "name": "Get Receiving Location Information",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        2360,
+        340
+      ]
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "=https://rest.gohighlevel.com/v1/contacts/{{ $('Keep Single non-error').item.json.contact.id }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $('Get Location Info').item.json.apiKey }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"tags\": [\n        \"Transferred\"\n    ],\n\"customField\": {\n          \"fRYkDD741vhXFi1hzpdO\":\"yes\",\n          \"uHmyCak9c97UTpBC8hpo\":\"{{ $('Get Receiving User Information').item.json[\"firstName\"] }} {{ $('Get Receiving User Information').item.json[\"lastName\"] }}\",\n          \"7tbdh8rGnWOSgACpIt1o\":\"{{ $('Get Receiving User Information').item.json[\"email\"] }}\",\n          \"dNZKUeltaaGdcyQD9RZp\":\"{{ $('Get Receiving User Information').item.json[\"phone\"] }}\",\n          \"Z503qScdnqxzPoUsqZN2\":\"{{ $('Get Receiving User Information').item.json[\"id\"] }}\",\n          \"uOwTOBwH68fj6bTpf4bZ\":\"{{ $('Get Receiving Location Information').item.json[\"id\"] }}\",\n          \"19Foj6qjBMaPSLf0vvkb\":\"{{ $('Get Receiving Location Information').item.json[\"name\"] }}\",\n          \"HYPJgvnkldf4k0u1Udst\":\"{{ $('Get Receiving Location Information').item.json[\"apiKey\"] }}\"\n        }\n}",
+        "options": {}
+      },
+      "id": "0b74188b-047d-4fc2-8ef5-6c7a349539a3",
+      "name": "Update Contact With Receiving Information",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        3760,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://rest.gohighlevel.com/v1/custom-fields",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $json.apiKey }}"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {
+              "followRedirects": false
+            }
+          }
+        }
+      },
+      "id": "753c1cb7-3454-4a51-8417-7b8cfbad5383",
+      "name": "Get Custom Fields From Sending Location",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1960,
+        600
+      ]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "customFields",
+        "options": {}
+      },
+      "id": "951c1892-ee70-4d0f-be4c-b3dccc05b978",
+      "name": "Split Out Fields",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 2.1,
+      "position": [
+        2160,
+        600
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://rest.gohighlevel.com/v1/custom-fields",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $json.apiKey }}"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {
+              "followRedirects": false
+            }
+          }
+        }
+      },
+      "id": "06aebabb-6b86-4137-8908-844e53b811f4",
+      "name": "Get Custom Fields From Sending Location1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        2560,
+        600
+      ]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "customFields",
+        "include": "allOtherFields",
+        "options": {}
+      },
+      "id": "fb420536-69a8-42eb-b838-91a3bbbeaf0a",
+      "name": "Split Out Fields1",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 2.1,
+      "position": [
+        2780,
+        600
+      ]
+    },
+    {
+      "parameters": {
+        "mergeByFields": {
+          "values": [
+            {
+              "field1": "name",
+              "field2": "name"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "4513389f-4b09-4417-8287-32922add56f7",
+      "name": "Compare Fields",
+      "type": "n8n-nodes-base.compareDatasets",
+      "typeVersion": 2.2,
+      "position": [
+        3040,
+        1020
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://rest.gohighlevel.com/v1/custom-fields",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $json.customFields.apiKey }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"name\": \"{{ $json[\"customFields\"][\"name\"] }}\",\n  \"dataType\": \"{{ $json[\"customFields\"][\"dataType\"] }}\",\n  \"placeholder\": \"\",\n  \"position\": {{ $json[\"customFields\"][\"position\"] }}\n}",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "b455fba0-af47-44e7-9f6b-41c9595c0236",
+      "name": "Create Fields That Don't Exist",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        3280,
+        600
+      ],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "customFields.apiKey",
+              "value": "={{ $('Get Receiving Location Information').item.json.apiKey }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "9cd4b54e-58a0-4bec-95e6-8d0ccd9fe871",
+      "name": "Set",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        2960,
+        600
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "chooseBranch"
+      },
+      "id": "76814d3d-50eb-4bc7-bb1a-285fc04ef16c",
+      "name": "Merge",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 2.1,
+      "position": [
+        3580,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://rest.gohighlevel.com/v1/locations",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb21wYW55X2lkIjoiVHhCeG9ZVVVHc1N1a2lUYXZkQm0iLCJ2ZXJzaW9uIjoxLCJpYXQiOjE2ODY4NjMxMzk1MTgsInN1YiI6IkJHT2JNMnBmd1RPa21kRTJBcjAzIn0.rtrFC2ctNOjLTYqGvWSantAkj_t95OReshROF-p5H0o"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "80e95b87-f126-4c6e-b87a-bdb5d343a20e",
+      "name": "Get All Locations",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        940,
+        460
+      ]
+    }
+  ],
+  "pinData": {},
+  "settings": {},
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2023-06-24T01:22:55.000Z",
+  "versionId": "43e15ed9-c96e-4166-a1bb-0d37049a6646"
+}
