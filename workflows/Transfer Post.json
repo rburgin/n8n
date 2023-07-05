@@ -1,0 +1,31 @@
+{
+  "active": true,
+  "connections": {},
+  "createdAt": "2023-06-22T18:30:01.657Z",
+  "id": "10",
+  "name": "Transfer Post",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "031a804f-191a-4698-bac6-0ed3495a7b69",
+        "options": {}
+      },
+      "id": "9f354fb3-f61e-45d7-86ad-476783d37998",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        660,
+        460
+      ],
+      "webhookId": "031a804f-191a-4698-bac6-0ed3495a7b69"
+    }
+  ],
+  "pinData": {},
+  "settings": {},
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2023-06-22T21:58:02.000Z",
+  "versionId": "a49f701e-d41b-49d6-9d54-ffa1f64725f7"
+}
