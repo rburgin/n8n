@@ -1,0 +1,268 @@
+{
+  "active": true,
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "MySQL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Item Lists": {
+      "main": [
+        [
+          {
+            "node": "Item Lists2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Item Lists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Item Lists2": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request2": {
+      "main": [
+        [
+          {
+            "node": "MySQL1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2023-06-20T14:54:52.446Z",
+  "id": "7",
+  "name": "Update Users Table",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 3
+            }
+          ]
+        }
+      },
+      "id": "cfe1ad26-8368-4e75-b2a1-9eb19aeda064",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        840,
+        680
+      ]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "users",
+        "options": {}
+      },
+      "id": "3abc50fe-68ed-4d85-b57d-c3324bae4bbb",
+      "name": "Item Lists",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 2.1,
+      "position": [
+        1480,
+        680
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://rest.gohighlevel.com/v1/users/",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb21wYW55X2lkIjoiVHhCeG9ZVVVHc1N1a2lUYXZkQm0iLCJ2ZXJzaW9uIjoxLCJpYXQiOjE2ODAxNjI2NTU2NTUsInN1YiI6InpCYUtNV1F1ODJjRG03dHdoYVBWIn0.KQOc5P0YA-ezXsc8lzOMKcf4yijxCq86uY0f7T8CXXQ"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "6a14e285-1749-4bea-844a-6243c4ebae0b",
+      "name": "HTTP Request1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1260,
+        680
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "deleteTable",
+        "table": {
+          "__rl": true,
+          "value": "command_center_users",
+          "mode": "list",
+          "cachedResultName": "command_center_users"
+        },
+        "options": {}
+      },
+      "id": "89292fda-b3f0-4566-bc5a-ddbb18e6bd44",
+      "name": "MySQL",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.1,
+      "position": [
+        1060,
+        680
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "10",
+          "name": "Planet Scale"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "table": {
+          "__rl": true,
+          "value": "command_center_users",
+          "mode": "list",
+          "cachedResultName": "command_center_users"
+        },
+        "dataMode": "defineBelow",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "user_id",
+              "value": "={{ $('Item Lists').item.json.id }}"
+            },
+            {
+              "column": "first_name",
+              "value": "={{ $('Item Lists').item.json.firstName }}"
+            },
+            {
+              "column": "last_name",
+              "value": "={{ $('Item Lists').item.json.lastName }}"
+            },
+            {
+              "column": "email",
+              "value": "={{ $('Item Lists').item.json.email }}"
+            },
+            {
+              "column": "company_api_key",
+              "value": "={{ $json.apiKey }}"
+            },
+            {
+              "column": "company_id",
+              "value": "={{ $json.id }}"
+            },
+            {
+              "column": "company_name",
+              "value": "={{ $json.name }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "d5af64d8-c244-420b-b1f4-b2eecb037089",
+      "name": "MySQL1",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.1,
+      "position": [
+        2180,
+        680
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "10",
+          "name": "Planet Scale"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "roles.locationIds",
+        "include": "allOtherFields",
+        "options": {}
+      },
+      "id": "20eeb56a-4489-4cf3-8ccb-e08695af6316",
+      "name": "Item Lists2",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 2.1,
+      "position": [
+        1700,
+        680
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://rest.gohighlevel.com/v1/locations/{{ $json['roles.locationIds'] }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb21wYW55X2lkIjoiVHhCeG9ZVVVHc1N1a2lUYXZkQm0iLCJ2ZXJzaW9uIjoxLCJpYXQiOjE2ODAxNjI2NTU2NTUsInN1YiI6InpCYUtNV1F1ODJjRG03dHdoYVBWIn0.KQOc5P0YA-ezXsc8lzOMKcf4yijxCq86uY0f7T8CXXQ"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "1a537b4e-ea44-46d7-8a74-8950237e739c",
+      "name": "HTTP Request2",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1940,
+        680
+      ]
+    }
+  ],
+  "pinData": {},
+  "settings": {},
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrencyRules": [
+        7
+      ]
+    }
+  },
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2023-07-05T14:00:00.000Z",
+  "versionId": "b3746bfa-09fe-4456-b807-62927ab8f64a"
+}
