@@ -1,0 +1,67 @@
+{
+  "active": true,
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2023-06-22T05:00:53.284Z",
+  "id": "9",
+  "name": "Transfer Loader",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "989b367e-10df-4d23-93af-0af663927a40",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "0adffc91-6c7d-40b7-b0ef-061da38fe4c9",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        1080,
+        740
+      ],
+      "webhookId": "989b367e-10df-4d23-93af-0af663927a40"
+    },
+    {
+      "parameters": {
+        "options": {
+          "responseCode": 303,
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Location",
+                "value": "=https://coastalpacificlending.com/lp/transferselect?wpf11427_3={{ $json[\"query\"][\"contact_id\"] }}"
+              }
+            ]
+          }
+        }
+      },
+      "id": "79c1724b-fb61-4bd6-b6f3-fc07c125670a",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        1300,
+        740
+      ]
+    }
+  ],
+  "pinData": {},
+  "settings": {},
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2023-06-22T23:57:05.000Z",
+  "versionId": "691ac0bb-58a9-4eb8-bae9-bba323abcdc3"
+}
