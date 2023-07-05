@@ -1,0 +1,32 @@
+{
+  "active": true,
+  "connections": {},
+  "createdAt": "2023-06-23T14:37:35.847Z",
+  "id": "12",
+  "name": "Catch from CC Webhook - Lead Posting Information",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "392dd915-8a1e-47bd-bc88-208bdd46a6c6",
+        "options": {}
+      },
+      "id": "7bfdaf19-7b09-4af0-80ac-4b3428c06204",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        1400,
+        460
+      ],
+      "webhookId": "392dd915-8a1e-47bd-bc88-208bdd46a6c6"
+    }
+  ],
+  "pinData": {},
+  "settings": {},
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2023-06-23T16:03:00.000Z",
+  "versionId": "b0ef1c67-2934-4686-bbf1-04ded3506bda"
+}
